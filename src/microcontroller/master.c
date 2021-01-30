@@ -16,7 +16,7 @@ void isr() {
 
 int main(int argc, char const *argv[]) {
   signal(SIGUSR1, isr);
-  puts("Starting Master");
+  puts("Starting Master...");
   printf("TOKEN: %d\n", getpid());
 
   struct comm_t comm;

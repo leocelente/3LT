@@ -1,3 +1,4 @@
 *.out
 child_out_parent_in
 parent_out_child_in
+.vscode/

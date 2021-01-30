@@ -43,7 +43,16 @@ Unix systems only.
  C Compiler
 ## Steps to run and debug
 
-`make && ./main.out`
+```shell
+make
+cd src
+./main.out
+./microcontroller/master.out 
+```
+Open a new terminal. Open the `src` folder.
+```shell
+./peripheral/slave.out
+```
 
 <!-- ## How to contribute
 

@@ -27,3 +27,8 @@ int write_parent(struct comm_t *comm, char *data, int len) {
 int read_parent(struct comm_t *comm, char *data, int len) {
   return read(comm->file_desc_poci, data, len);
 }
+
+void comm_close(struct comm_t *comm) {
+    close(comm->file_desc_copi);
+    close(comm->file_desc_poci);
+}

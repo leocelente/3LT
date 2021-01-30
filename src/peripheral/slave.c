@@ -1,0 +1,53 @@
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <unistd.h>
+
+#include "../protocol-channel/comm.h"
+
+void message(char *data, int len) {}
+
+int main(int argc, char const *argv[]) {
+  char register_map[16];
+  memset(&register_map, 0, sizeof(register_map));
+  puts("Starting Peripheral.....");
+  int master_pid = -1;
+  printf("Enter the Master TOKEN: ");
+  scanf("%d", &master_pid);
+  if (master_pid <= 0)
+    return -1;
+
+  puts("Waiting for connection....");
+  struct comm_t comm;
+  comm_init(&comm, ROLE_CHILD);
+  puts("Communication Channel Established!");
+
+  char recv_buff[32];
+  char tran_buff[32];
+
+  do {
+    memset(&recv_buff, 0, sizeof(recv_buff));
+    memset(&tran_buff, 0, sizeof(tran_buff));
+
+    read_parent(&comm, recv_buff, sizeof(recv_buff));
+    puts("Received a Command");
+    switch (recv_buff[0]) {
+    case 'e':
+      memcpy(&tran_buff, &recv_buff[1], sizeof(recv_buff) - 1);
+      break;
+    case 't':
+      memcpy(&tran_buff, "OK\n", 4);
+      sleep((int)recv_buff[1]);
+      kill(master_pid, SIGUSR1);
+      break;
+    default:
+      memcpy(&tran_buff, "Unknown Command\n", 17);
+      break;
+    }
+    write_parent(&comm, tran_buff, sizeof(tran_buff));
+  } while (recv_buff[0] != 'q');
+  comm_close(&comm);
+  puts("End of Child");
+  return 0;
+}

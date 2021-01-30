@@ -30,4 +30,6 @@ int read_child(struct comm_t *comm, char *buffer, int size);
 int write_parent(struct comm_t *comm, char *data, int len);
 int read_parent(struct comm_t *comm, char *buffer, int size);
 
+void comm_close(struct comm_t *comm) ;
+
 #endif

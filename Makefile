@@ -1,11 +1,11 @@
 
 
-all: main.out\
-	child.out\
-	parent.out\
+all: src/main.out\
+	src/peripheral/slave.out\
+	src/microcontroller/master.out\
 
 %.out: %.c 
-	$(CC) comm.c $*.c -g -o $*.out 
+	$(CC) src/protocol-channel/comm.c $*.c -g -o $*.out 
 
 run:
 	./main.out

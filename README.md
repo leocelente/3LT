@@ -9,54 +9,57 @@
     <img src="https://img.shields.io/badge/Linked%20to-EESC--USP-black?style=for-the-badge"/>
     </a>
      <a href="https://github.com/leocelente/simulando-interrupts-linux-signals/blob/main/LICENSE">
-    <a href="https://github.com//blob/main/LICENSE">
+    <!-- <a href="https://github.com//blob/main/LICENSE"> -->
     <img src="https://img.shields.io/github/license/leocelente/simulando-interrupts-linux-signals?style=for-the-badge"/>
-    <img src="https://img.shields.io/github/license/?style=for-the-badge"/>
+    <!-- <img src="https://img.shields.io/github/license/?style=for-the-badge"/> -->
     </a>
     </a>
     <a href="https://github.com/leocelente/simulando-interrupts-linux-signals/issues">
-    <a href="https://github.com//issues">
+    <!-- <a href="https://github.com//issues"> -->
     <img src="https://img.shields.io/github/issues/leocelente/simulando-interrupts-linux-signals?style=for-the-badge"/>
-    <img src="https://img.shields.io/github/issues/?style=for-the-badge"/>
+    <!-- <img src="https://img.shields.io/github/issues/?style=for-the-badge"/> -->
     </a>
     </a>
     <a href="https://github.com/leocelente/simulando-interrupts-linux-signals/commits/main">
-    <a href="https://github.com//commits/main">
+    <!-- <a href="https://github.com//commits/main"> -->
     <img src="https://img.shields.io/github/commit-activity/m/leocelente/simulando-interrupts-linux-signals?style=for-the-badge">
-    <img src="https://img.shields.io/github/commit-activity/m/?style=for-the-badge">
+    <!-- <img src="https://img.shields.io/github/commit-activity/m/?style=for-the-badge"> -->
     </a>
     </a>
     <a href="https://github.com/leocelente/simulando-interrupts-linux-signals/graphs/contributors">
-    <a href="https://github.com//graphs/contributors">
+    <!-- <a href="https://github.com//graphs/contributors"> -->
     <img src="https://img.shields.io/github/contributors/leocelente/simulando-interrupts-linux-signals?style=for-the-badge"/>
-    <img src="https://img.shields.io/github/contributors/?style=for-the-badge"/>
+    <!-- <img src="https://img.shields.io/github/contributors/?style=for-the-badge"/> -->
     </a>
     </a>
     <a href="https://github.com/leocelente/simulando-interrupts-linux-signals/commits/main">
-    <a href="https://github.com//commits/main">
+    <!-- <a href="https://github.com//commits/main"> -->
     <img src="https://img.shields.io/github/last-commit/leocelente/simulando-interrupts-linux-signals?style=for-the-badge"/>
-    <img src="https://img.shields.io/github/last-commit/?style=for-the-badge"/>
+    <!-- <img src="https://img.shields.io/github/last-commit/?style=for-the-badge"/> -->
     </a>
     </a>
     <a href="https://github.com/leocelente/simulando-interrupts-linux-signals/issues">
-    <a href="https://github.com//issues">
+    <!-- <a href="https://github.com//issues"> -->
     <img src="https://img.shields.io/github/issues-raw/leocelente/simulando-interrupts-linux-signals?style=for-the-badge" />
-    <img src="https://img.shields.io/github/issues-raw/?style=for-the-badge" />
+    <!-- <img src="https://img.shields.io/github/issues-raw/?style=for-the-badge" /> -->
     </a>
     </a>
     <a href="https://github.com/leocelente/simulando-interrupts-linux-signals/pulls">
-    <a href="https://github.com//pulls">
+    <!-- <a href="https://github.com//pulls"> -->
     <img src = "https://img.shields.io/github/issues-pr-raw/leocelente/simulando-interrupts-linux-signals?style=for-the-badge">
-    <img src = "https://img.shields.io/github/issues-pr-raw/?style=for-the-badge">
+    <!-- <img src = "https://img.shields.io/github/issues-pr-raw/?style=for-the-badge"> -->
     </a>
 </p>
 
 <p align="center">
+    <a href="#demo">Demo</a> •
     <a href="#environment-and-tools">Environment and Tools</a> •
     <a href="#steps-to-run-and-debug">Steps to run and debug</a> •
     <a href="#how-to-contribute">How to contribute?</a> •
 </p>
 
+## Demo
+![demo gif](demo.gif)
 ## Environment and tools
 
 Unix systems only.

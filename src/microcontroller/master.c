@@ -1,4 +1,5 @@
 #include <signal.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/wait.h>
@@ -23,9 +24,9 @@ int main(int argc, char const *argv[]) {
   puts("Waiting for connection....");
   comm_init(&comm, ROLE_PARENT); //! blocks until child creates comm
   puts("Communication Channel Established!");
-  
-  char cmd_buff[32];
-  char res_buff[32];
+
+  uint8_t cmd_buff[32];
+  uint8_t res_buff[32];
 
   int time = 0;
   do {
@@ -43,6 +44,19 @@ int main(int argc, char const *argv[]) {
       scanf("%d", &time);
       cmd_buff[1] = (char)time;
       break;
+    case 'w':
+      printf("Enter the address: ");
+      scanf(" %02hhX", &cmd_buff[1]);
+      printf("Enter the size: ");
+      scanf(" %02hhX", &cmd_buff[2]);
+      printf("Enter the data: ");
+      scanf("%s", &cmd_buff[3]);
+			break;
+    case 'r':
+      printf("Enter the address: ");
+      scanf(" %02hhX", &cmd_buff[1]);
+      printf("Enter the size: ");
+      scanf(" %02hhX", &cmd_buff[2]);
     default:
       break;
     }
@@ -53,7 +67,6 @@ int main(int argc, char const *argv[]) {
 
   comm_close(&comm);
   // wait(NULL);
-
 
   return 0;
 }

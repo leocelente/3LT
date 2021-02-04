@@ -8,25 +8,45 @@
     <a href="https://eesc.usp.br/">
     <img src="https://img.shields.io/badge/Linked%20to-EESC--USP-black?style=for-the-badge"/>
     </a>
+     <a href="https://github.com/${{ env.REPOSITORY_FULL_NAME }}/blob/main/LICENSE">
     <a href="https://github.com//blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/${{ env.REPOSITORY_FULL_NAME }}?style=for-the-badge"/>
     <img src="https://img.shields.io/github/license/?style=for-the-badge"/>
     </a>
+    </a>
+    <a href="https://github.com/${{ env.REPOSITORY_FULL_NAME }}/issues">
     <a href="https://github.com//issues">
+    <img src="https://img.shields.io/github/issues/${{ env.REPOSITORY_FULL_NAME }}?style=for-the-badge"/>
     <img src="https://img.shields.io/github/issues/?style=for-the-badge"/>
     </a>
+    </a>
+    <a href="https://github.com/${{ env.REPOSITORY_FULL_NAME }}/commits/main">
     <a href="https://github.com//commits/main">
+    <img src="https://img.shields.io/github/commit-activity/m/${{ env.REPOSITORY_FULL_NAME }}?style=for-the-badge">
     <img src="https://img.shields.io/github/commit-activity/m/?style=for-the-badge">
     </a>
+    </a>
+    <a href="https://github.com/${{ env.REPOSITORY_FULL_NAME }}/graphs/contributors">
     <a href="https://github.com//graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/${{ env.REPOSITORY_FULL_NAME }}?style=for-the-badge"/>
     <img src="https://img.shields.io/github/contributors/?style=for-the-badge"/>
     </a>
+    </a>
+    <a href="https://github.com/${{ env.REPOSITORY_FULL_NAME }}/commits/main">
     <a href="https://github.com//commits/main">
+    <img src="https://img.shields.io/github/last-commit/${{ env.REPOSITORY_FULL_NAME }}?style=for-the-badge"/>
     <img src="https://img.shields.io/github/last-commit/?style=for-the-badge"/>
     </a>
+    </a>
+    <a href="https://github.com/${{ env.REPOSITORY_FULL_NAME }}/issues">
     <a href="https://github.com//issues">
+    <img src="https://img.shields.io/github/issues-raw/${{ env.REPOSITORY_FULL_NAME }}?style=for-the-badge" />
     <img src="https://img.shields.io/github/issues-raw/?style=for-the-badge" />
     </a>
+    </a>
+    <a href="https://github.com/${{ env.REPOSITORY_FULL_NAME }}/pulls">
     <a href="https://github.com//pulls">
+    <img src = "https://img.shields.io/github/issues-pr-raw/${{ env.REPOSITORY_FULL_NAME }}?style=for-the-badge">
     <img src = "https://img.shields.io/github/issues-pr-raw/?style=for-the-badge">
     </a>
 </p>

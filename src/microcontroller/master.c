@@ -20,13 +20,13 @@ int main(int argc, char const *argv[]) {
   puts("Starting Master...");
   printf("TOKEN: %d\n", getpid());
 
-  struct comm_t comm;
+  comm_t comm = {0};
   puts("Waiting for connection....");
   comm_init(&comm, ROLE_PARENT); //! blocks until child creates comm
   puts("Communication Channel Established!");
 
-  uint8_t cmd_buff[32];
-  uint8_t res_buff[32];
+  uint8_t cmd_buff[32] = {0};
+  uint8_t res_buff[32] = {0};
 
   int time = 0;
   do {
@@ -60,8 +60,8 @@ int main(int argc, char const *argv[]) {
     default:
       break;
     }
-    write_child(&comm, cmd_buff, sizeof(cmd_buff));
-    read_child(&comm, res_buff, sizeof(res_buff));
+    comm_write(&comm, cmd_buff, sizeof(cmd_buff));
+    comm_read(&comm, res_buff, sizeof(res_buff));
     printf("Response: %s\n", res_buff);
   } while (cmd_buff[0] != 'q');
 

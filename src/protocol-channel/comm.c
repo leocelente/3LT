@@ -1,6 +1,8 @@
 #include "comm.h"
-
-void comm_init(struct comm_t *comm, int role) {
+#include <stdint.h>
+#include <sys/cdefs.h>
+#include <sys/types.h>
+void comm_init(comm_t *comm, int role) {
   comm->role = role;
   if (role == ROLE_PARENT) {
     comm->file_desc_copi = open(COPI, O_RDONLY);
@@ -11,24 +13,36 @@ void comm_init(struct comm_t *comm, int role) {
   }
 }
 
+int comm_read(comm_t *comm, uint8_t *data, int len) {
+  const int pipe =
+      comm->role == ROLE_PARENT ? comm->file_desc_copi : comm->file_desc_poci;
+  return read(pipe, data, len);
+}
+
+int comm_write(comm_t *comm, uint8_t *data, int len) {
+  const int pipe =
+      comm->role == ROLE_PARENT ? comm->file_desc_poci : comm->file_desc_copi;
+  return write(pipe, data, len) == -1;
+}
+
 // Returns 0 if SUCESS
-int write_child(struct comm_t *comm, char *data, int len) {
+ int write_child(comm_t *comm, char *data, int len) {
   return (write(comm->file_desc_poci, data, len) == -1);
 }
 
-int read_child(struct comm_t *comm, char *data, int len) {
+ int read_child(comm_t *comm, char *data, int len) {
   return read(comm->file_desc_copi, data, len);
 }
 
-int write_parent(struct comm_t *comm, char *data, int len) {
+ int write_parent(comm_t *comm, char *data, int len) {
   return (write(comm->file_desc_copi, data, len) == -1);
 }
 
-int read_parent(struct comm_t *comm, char *data, int len) {
+ int read_parent(comm_t *comm, char *data, int len) {
   return read(comm->file_desc_poci, data, len);
 }
 
-void comm_close(struct comm_t *comm) {
-    close(comm->file_desc_copi);
-    close(comm->file_desc_poci);
+void comm_close(comm_t *comm) {
+  close(comm->file_desc_copi);
+  close(comm->file_desc_poci);
 }

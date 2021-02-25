@@ -7,20 +7,22 @@
 
 #include "../protocol-channel/comm.h"
 
-void prinf_reg_map(uint8_t *regmap, int len) {
+#define BUFFER_SIZE 32
 
+void prinf_reg_map(uint8_t *regmap, int len) {
   printf("Registers:\n");
   for (int i = 1; i <= len; i++) {
     printf("%02X ", regmap[i - 1]);
-    if (i % 8 == 0)
+    if (i % 8 == 0) {
       printf("\n");
+    }
   }
 }
 
 int main(int argc, char const *argv[]) {
-  uint8_t register_map[32];
-  memset(&register_map, 0, sizeof(register_map));
+  
   puts("Starting Peripheral.....");
+  
   int master_pid = -1;
   printf("Enter the Master TOKEN: ");
   scanf("%d", &master_pid);
@@ -28,18 +30,22 @@ int main(int argc, char const *argv[]) {
     return -1;
 
   puts("Waiting for connection....");
-  struct comm_t comm;
+  comm_t comm = {0};
   comm_init(&comm, ROLE_CHILD);
   puts("Communication Channel Established!");
 
-  uint8_t recv_buff[32];
-  uint8_t tran_buff[32];
+
+  uint8_t recv_buff[BUFFER_SIZE] = {0};
+  uint8_t tran_buff[BUFFER_SIZE] = {0};
+
+  uint8_t register_map[BUFFER_SIZE] = {0};
 
   do {
     memset(&recv_buff, 0, sizeof(recv_buff));
     memset(&tran_buff, 0, sizeof(tran_buff));
 
-    read_parent(&comm, recv_buff, sizeof(recv_buff));
+    comm_read(&comm, recv_buff, sizeof(recv_buff));
+
     puts("Received a Command");
 
     switch (recv_buff[0]) {
@@ -63,8 +69,9 @@ int main(int argc, char const *argv[]) {
       memcpy(&tran_buff, "Unknown Command\n", 17);
       break;
     }
-    write_parent(&comm, tran_buff, sizeof(tran_buff));
+    comm_write(&comm, tran_buff, sizeof(tran_buff));
   } while (recv_buff[0] != 'q');
+
   memset(&recv_buff, 0, sizeof(recv_buff));
   memset(&tran_buff, 0, sizeof(tran_buff));
 

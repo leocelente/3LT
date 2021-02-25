@@ -5,7 +5,7 @@ all: src/main.out\
 	src/microcontroller/master.out\
 
 %.out: %.c 
-	$(CC) src/protocol-channel/comm.c $*.c -g -o $*.out 
+	$(CC) -std=gnu11 src/protocol-channel/comm.c $*.c -g -o $*.out 
 
 run:
 	./main.out

@@ -1,5 +1,5 @@
-<h1 align="center" style="color:white; background-color:black">Fake Interrupts com IPC</h1>
-<h4 align="center">Experimentos simulando comportamento de software de baixo nivel usando unix IPC </h4>
+<h1 align="center" style="color:white; background-color:black">Simulando Baixo-Nível</h1>
+<h4 align="center">Framework para debuggar bibliotecas de baixo-nível </h4>
 
 <p align="center">
 	<a href="http://zenith.eesc.usp.br/">
@@ -53,7 +53,7 @@
 
 ## O que é:
 
-Uma ferramenta para debuggar bibliotecas de baixo-nivel.
+Uma ferramenta para debuggar bibliotecas de baixo-nível.
 
 ## Como Funciona:
 
@@ -74,7 +74,7 @@ Suponha que estamos programando uma biblioteca para um sensor que descreve seu m
     O <b>7º</b> bit do endereço determina Escrita (1) ou Leitura (0)
 </p>
 
-Podemos então construir uma biblioteca, supondo que as funções `bsp_*` são uma forma de isolar funções de HAL de um microcontrolador espeçifico. Então nossa biblioteca é generica para diferentes plataformas de hardware. Assim:
+Podemos então construir uma biblioteca, supondo que as funções `bsp_*` são uma forma de isolar funções de HAL de um microcontrolador específico. Então nossa biblioteca é genérica para diferentes plataformas de hardware. Assim:
 
 ```c
 #include "target.h"

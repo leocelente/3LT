@@ -51,39 +51,123 @@
     </a>
 </p>
 
+## O que é:
+
+Uma ferramenta para debuggar bibliotecas de baixo-nivel.
+
+## Como Funciona:
+
+Suponha que estamos programando uma biblioteca para um sensor que descreve seu mapa de registradores internos da seguinte forma:
+
+<table align="center">
+<tr>
+<th>Endereço</th> <th>Função</th>
+</tr>
+<tr>
+<td> 00</td><td> [R/W] Modo de Operação  </td>
+</tr>
+<tr>
+<td> 02</td><td> [R/W] FIFO de Entrada </td>
+</tr>
+</table>
 <p align="center">
-    <a href="#demo">Demo</a> •
-    <a href="#environment-and-tools">Environment and Tools</a> •
-    <a href="#steps-to-run-and-debug">Steps to run and debug</a> •
-    <a href="#how-to-contribute">How to contribute?</a> •
+    O <b>7º</b> bit do endereço determina Escrita (1) ou Leitura (0)
 </p>
 
-## Demo
-![demo gif](demo.gif)
-## Environment and tools
+Podemos então construir uma biblioteca, supondo que as funções `bsp_*` são uma forma de isolar funções de HAL de um microcontrolador espeçifico. Então nossa biblioteca é generica para diferentes plataformas de hardware. Assim:
 
-Unix systems only.
- C Compiler
-## Steps to run and debug
+```c
+#include "target.h"
+#include "bsp.h"
+
+target_err_t target_init(target_t *target, void *const spi) {
+	target->mode = 0;
+	return TARGET_OK;
+}
+
+target_err_t target_set_config(target_t *target, const int config) {
+	char rx[1] = { 0 };
+	char data[1] = { (char)config };
+	bsp_transmit(MODE_REG | WRITE_MSK, data, 1, rx, 1);
+	return TARGET_OK;
+}
+
+target_err_t target_send_packet(target_t *target, char data[], int len) {
+	char rx[1] = { 0 };
+	while (len--) { bsp_transmit(TX_FIFO | WRITE_MSK, &data[len], 1, rx, 1); }
+	return TARGET_OK;
+}
+
+target_err_t target_get_mode(target_t *target, char *rx_buffer, int size) {
+	char data[] = { 0x00 };
+	bsp_transmit(MODE_REG, data, 1, rx_buffer, 1);
+	return TARGET_OK;
+}
+```
+ Então testariamos nossa biblioteca dessa forma:
+```c
+target_t target;
+target_init(&target, &gcomm);
+
+target_set_config(&target, MODE_PADRAO);
+
+char tx[] = { 0xAD, 0xDE };
+target_send_packet(&target, tx, sizeof(tx));
+
+char rx[1];
+target_get_mode(&target, rx, 1);
+printf("RX: %02X \n", (uint8_t)rx[0]);
+
+```
+Usando essa ferramenta de debugação é possivel rodar esse código no PC. Dado que possamos programar um mock do sensor, como: 
+```c
+comm_read(&comm, recv_buff, sizeof(recv_buff));
+
+const uint8_t is_write = recv_buff[0] & WRITE_MSK;
+const uint8_t address = recv_buff[0] & (~WRITE_MSK);
+const int len = recv_buff[1];
+if (address < sizeof(register_map)) {
+    if (is_write) {
+        printf("[WRITE] ADDR: %d\n", address);
+        memcpy(&register_map[address], &recv_buff[2], len);
+        prinf_reg_map(register_map, sizeof(register_map));
+    } else {
+        printf("[READ] ADDR: %d\n", address);
+        memcpy(&tran_buff, &register_map[address], len);
+    }
+}
+comm_write(&comm, tran_buff, sizeof(tran_buff));
+```
+As funções `comm_*` fazem a comunicação entre o processo da biblioteca ("microcontrolador") e o sensor. Mais detalhes no arquivo `src/mock/target-mock.c`.
+
+Executar o código então nos daria a saida:
 
 ```shell
-make
-cd src
-./main.out
-./microcontroller/master.out 
+[WRITE] ADDR: 0
+Register Map:
+F0 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+[WRITE] ADDR: 2
+Register Map:
+F0 00 DE 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+[WRITE] ADDR: 2
+Register Map:
+F0 00 AD 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+00 00 00 00 00 00 00 00 
+[READ] ADDR: 0
+RX: F0 
 ```
-Open a new terminal. Open the `src` folder.
-```shell
-./peripheral/slave.out
-```
 
-<!-- ## How to contribute
+Teriamos um log da comunicação entre a biblioteca e o sensor. Então seria trivial encontrar erros de programação e diferenças do esperado pelo datasheet.
 
-`(optional, depends on the project) list of simple rules to help people work on the project.`
 
-`Examples: How to format a pull request\n How to format an issue`
-
---- -->
 
 <p align="center">
     <a href="http://zenith.eesc.usp.br">

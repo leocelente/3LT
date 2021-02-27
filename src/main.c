@@ -1,32 +1,25 @@
+#include "ipc.h"
 #include <stdio.h>
-#include <string.h>
-#include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-#define PROCESS_GOTO(x) (execl((x), "", NULL))
+#define PERMISSION 0666
 
-#define FORK_FAIL(x) ((x) < 0)
-#define FORK_IS_CHILD(x) ((x) == 0)
-#define FORK_IS_PARENT(x) (((x) > 0))
+int main(const int argc, char **argv) {
 
-#include "protocol-channel/comm.h"
+	char target[] = "./build/target-mock";// target peripheral
+	char lib_ut[] = "./build/library-tests";// library under test
 
-int main(int argc, char const *argv[]) {
+	mkfifo(POCI, PERMISSION);
+	mkfifo(COPI, PERMISSION);
 
-  // SETUP Two-Way Communication
-  mkfifo(COPI, 0666);
-  mkfifo(POCI, 0666);
-
-//   printf("main %d\n", getpid());
-//   const int split = fork();
-//   if (FORK_FAIL(split))
-//     return -1;
-//   else if (FORK_IS_CHILD(split)) {
-//     PROCESS_GOTO("./peripheral/slave.out");
-//   } else /*if (FORK_IS_PARENT(split)) */ {
-//     PROCESS_GOTO("./microcontroller/master.out");
-//   }
-//   wait(NULL);
-  return 0;
+	int child_pid = fork();
+	if (child_pid == 0) {
+		   execl(target, "", NULL);
+		while (1) {}
+	} else {
+		execl(lib_ut, (char *)&child_pid, NULL);
+	}
+	wait(NULL);
 }

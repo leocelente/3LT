@@ -50,9 +50,12 @@ target_err_t target_init(target_t *target, void *spi);
 target_err_t target_set_config(target_t *target, const int config);
 
 
-target_err_t target_send_packet(target_t * target, char data[], int len);
+target_err_t target_send_packet(target_t *target, char data[], int len);
 
 
-target_err_t target_get_mode(target_t *target, char* rx_buffer, int size);
+target_err_t target_get_mode(target_t *target, char *rx_buffer, int size);
+
+
+void on_interrupt(target_t *restrict target);
 
 #endif

@@ -1,5 +1,13 @@
 #include "target.h"
 #include "bsp.h"
+#include <assert.h>
+
+void on_interrupt(target_t *restrict target) {
+	char rx[1];
+	target_get_mode(target, rx, 1);// this is probably a terrible idea
+	assert((uint8_t)rx[0] == MODE_PADRAO);// and this is worse
+}
+
 
 target_err_t target_init(target_t *target, void *const spi) {
 	target->mode = 0;

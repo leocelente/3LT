@@ -7,10 +7,12 @@
 #include <wait.h>
 
 comm_t gcomm;
-__attribute__((used)) void isr() {
-	write(STDOUT_FILENO, "(Packet Sent)\n", 15);
-}
 
+target_t target;
+
+__attribute__((used)) void isr() {
+    on_interrupt(&target);
+}
 
 int main(int argc, char **argv) {
 	int child_pid = *(int *)argv[0];
@@ -20,7 +22,6 @@ int main(int argc, char **argv) {
 	/* USER CODE BEGIN */
 
 
-	target_t target;
 	target_init(&target, &gcomm);
 
 	target_set_config(&target, MODE_PADRAO);

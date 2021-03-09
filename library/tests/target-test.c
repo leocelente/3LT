@@ -7,10 +7,16 @@
 #include <wait.h>
 
 comm_t gcomm;
+__attribute__((used)) void isr() {
+	write(STDOUT_FILENO, "(Packet Sent)\n", 15);
+}
+
 
 int main(int argc, char **argv) {
 	int child_pid = *(int *)argv[0];
 	comm_init(&gcomm, ROLE_PARENT);
+
+	signal(SIGUSR1, isr);
 	/* USER CODE BEGIN */
 
 
@@ -21,6 +27,7 @@ int main(int argc, char **argv) {
 
 	char tx[] = { 0xAD, 0xDE };
 	target_send_packet(&target, tx, sizeof(tx));
+	puts("MCU Continues....");
 
 	char rx[1];
 	target_get_mode(&target, rx, 1);

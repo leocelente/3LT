@@ -16,6 +16,9 @@ target_err_t target_set_config(target_t *target, const int config) {
 target_err_t target_send_packet(target_t *target, char data[], int len) {
 	char rx[1] = { 0 };
 	while (len--) { bsp_transmit(TX_FIFO | WRITE_MSK, &data[len], 1, rx, 1); }
+
+	char send[] = { 0x01 };
+	bsp_transmit(TX_SEND | WRITE_MSK, send, 1, rx, 1);
 	return TARGET_OK;
 }
 

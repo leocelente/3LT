@@ -9,8 +9,9 @@
 
 #define WRITE_MSK (1 << 7)
 #define BUFFER_SIZE 32
+#define TX_SEND 0x07
 
-void prinf_reg_map(uint8_t *regmap, int len) {
+void printf_reg_map(uint8_t *regmap, int len) {
 	printf("Register Map:\n");
 	for (int i = 1; i <= len; i++) {
 		printf("%02X ", regmap[i - 1]);
@@ -44,15 +45,23 @@ int main(int argc, char const *argv[]) {
 			if (is_write) {
 				printf("[WRITE] ADDR: %d\n", address);
 				memcpy(&register_map[address], &recv_buff[2], len);
-				prinf_reg_map(register_map, sizeof(register_map));
+				printf_reg_map(register_map, sizeof(register_map));
 			} else {
 				printf("[READ] ADDR: %d\n", address);
 				memcpy(&tran_buff, &register_map[address], len);
 			}
 		}
+        
+        // complete transaction to release master
 		comm_write(&comm, tran_buff, sizeof(tran_buff));
-	} while (recv_buff[0] != 'q');
 
+		if (is_write && address == TX_SEND) {
+            sleep(1); // blocking
+			kill(master_pid, SIGUSR1);
+		}
+
+	} while (recv_buff[0] != 'q');
+    
 	memset(&recv_buff, 0, sizeof(recv_buff));
 	memset(&tran_buff, 0, sizeof(tran_buff));
 
@@ -60,3 +69,4 @@ int main(int argc, char const *argv[]) {
 	puts("End of Child");
 	return 0;
 }
+

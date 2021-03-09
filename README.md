@@ -1,5 +1,5 @@
-<h1 align="center" style="color:white; background-color:black">Simulando Baixo-Nível</h1>
-<h4 align="center">Framework para debuggar bibliotecas de baixo-nível </h4>
+<h1 align="center" style="color:white; background-color:black">3LT</h1>
+<h4 align="center">Low Level Library Tester</h4>
 
 <p align="center">
 	<a href="http://zenith.eesc.usp.br/">
